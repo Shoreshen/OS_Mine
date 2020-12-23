@@ -1,0 +1,32 @@
+# Used to track the package's GUID and version, 
+# which allows multiple copies of the same package 
+# with different versions to be processed by tools
+[Defines] 
+    # Must have, .dec file format version. 
+    # 0x0001001B = 1.27 is the newest release specification at time
+    DEC_SPECIFICATION = 0x0001001B
+    # Must have, same name as the package dir
+    # Used for creating dir for packge: ./Build/$(PACKAGE_NAME)
+    PACKAGE_NAME      = MyPkg
+    # Must have, the GUID of the package
+    PACKAGE_GUID      = 266f7704-e15b-4eab-bfb3-570d5f186b15
+    # Must have, package version for maintain purpose
+    PACKAGE_VERSION   = 0.1
+
+# Optional section
+# Used to identify the "standard" location "include directories"
+# for compile provide by this EDK II package
+# Used as [Includes.$(Arch)], $(Arch) can be IA32, X64 or others
+# So that different .h files can be applied under different archetecture
+[Includes]
+    # Indicating $(WORKSPACE)/$(PACKAGE_NAME)/Include is the defualt
+    # including path for all archetecture
+    Include
+
+# Optional section
+# Used to identify the head files exported and can be referenced 
+# by other module in .inf file
+# Must located under $(WORKSPACE)/$(PACKAGE_NAME)/Include/Library
+# Used as [LibraryClasses.$(Arch)], $(Arch) can be IA32, X64 or others
+# entries are fomated as "LibraryName | .h file relative path"
+[LibraryClasses]
