@@ -490,7 +490,7 @@ find path -option [-print]
 <code>!\<expr\></code>:  return inverse of <code>\<expr\></code>
 <code>-prune</code>: If the file is a directory, descend into it.
 
-The following example:
+#### Sample 1
 
 ```shell
 find ~/OneDrive -path ~/OneDrive/manjaro_note -a -prune -o -name *.org -a -print
@@ -505,7 +505,21 @@ will first:
 5. <code>-name</code> match the filename.
 
 In conclusion, <code>-path ~/OneDrive/manjaro_note -a -prune</code> return ture only if what found is "~/OneDrive/manjaro_note" and stop search any files under the direcotry. Other files not in "~/OneDrive/manjaro_note" will be valued by <code>-name *.org</code> and if true, will be printed.
- 
+
+#### Sample 2
+
+```shell
+find ~/OneDrive -type f -print0 | xargs -0 -P 8 grep -n "DESCRIPTION"
+```
+
+1. <code>-type f</code>: Only display file objects (not directory)
+2. <code>-print0</code>: Use null character as separator of results to display
+3. <code>xargs -0 -P 8</code>: Process each null separated input as parameter of the following cammand
+   "-0" indicates the input is null separated
+   "-P 8" indicates max parallel of 8 processing unit
+4. <code>grep -n "DESCRIPTION"</code>: Find string "DESCRIPTION", "-n" display line number
+
+This command find all files that containning string of "DESCRIPTION" under directory of <code>~/OneDrive</code>
 # gcc
 
 Format as

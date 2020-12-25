@@ -135,6 +135,7 @@ clean:
 	-rm Kernel.bin user.bin test.bin
 	-rm *.disk
 	-rm $(DUMPRST)
+	-rm .vscode-ctags
 tests:
 	@echo $(DUMPRST)
 
@@ -144,6 +145,8 @@ dump: $(DUMPOBJ)
 	objdump -D $(word 3,$^) > $(word 3,$^).s
 
 # GitHub ========================================================================================
+update_sub:
+	git submodule update --init --recursive
 commit: clean
 	git add -A
 	@echo "Please type in commit comment: "; \

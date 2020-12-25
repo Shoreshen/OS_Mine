@@ -1,3 +1,4 @@
+[TOC]
 # Installing EDK2
 
 ## Pre-requiements
@@ -23,7 +24,7 @@ From this [link](https://github.com/tianocore/tianocore.github.io/wiki/Common-in
 2. Initialize submodules
    ```shell
    cd edk2*
-   git submodule update --init
+   git submodule update --init --recursive
    ```
 3. Compile build tools
    ```shell
