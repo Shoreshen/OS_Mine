@@ -15,8 +15,10 @@ U_OBJ = $(patsubst %.c,%.o,$(U_SRC))
 T_SRC = $(wildcard ./test/*.c)			# Need to make sure init.c is the first entry
 T_OBJ = $(patsubst %.c,%.o,$(T_SRC))
 # UEFI variable =================================================================================
-EDKDIR = /home/shore/OneDrive/UEFI/edk2-stable202005
+EDKDIR = ./edk2
+OVMF_DSC = OvmfPkg/OvmfPkgX64.dsc
 TRGOBJ = Kernel.bin test.bin user.bin
+BFLAGS = -a X64 -t GCC5
 # Dump info variable ============================================================================
 DUMPOBJ = system user.sys test.sys
 DUMPRST = $(patsubst %,%.s,$(DUMPOBJ))
@@ -79,16 +81,16 @@ test.bin: test.sys
 	objcopy -I elf64-x86-64 -S -R ".eh_frame" -R ".comment" -O binary $^ $@
 # UEFI compile ==================================================================================
 # UEFI enviroment need to be set up each time:
-# 1, cd UEFIDIR
-# 2, source ./edksetup.sh
-# 3, rm -rf edk2*/Build/My //Each time reboot need to remove already built files, incase of conflict of existing GUID of the package
-# Since makefile cannot export system variable directly, so it neet to be set by mannual
+# 1, cd edk2
+# 2, source edksetup.sh BaseTools
+build_base:
+	make -C ./edk2/BaseTools
 $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi: MyPkg/BootX64/BootX64.c MyPkg/BootX64/BootX64.h MyPkg/BootX64/BootX64.inf MyPkg/MyPkg.dec MyPkg/MyPkg.dsc
 	-rm -rf $(EDKDIR)/MyPkg
 	cp -rf MyPkg $(EDKDIR)
-	cd $(EDKDIR) && build -p $(word 5,$^) -a X64 -m $(word 3,$^)
+	cd $(EDKDIR) && build $(BFLAGS) -p $(word 5,$^) -m $(word 3,$^)
 $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd:
-	@echo Please build OVMF.fd
+	cd $(EDKDIR) && build $(BFLAGS) -p $(OVMF_DSC) 
 
 # Make disk =====================================================================================
 hda.disk: $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi $(TRGOBJ)
@@ -135,7 +137,8 @@ clean:
 	-rm Kernel.bin user.bin test.bin
 	-rm *.disk
 	-rm $(DUMPRST)
-	-rm .vscode-ctags
+	-rm -rf $(EDKDIR)/MyPkg
+
 tests:
 	@echo $(DUMPRST)
 
