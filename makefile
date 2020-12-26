@@ -150,8 +150,10 @@ dump: $(DUMPOBJ)
 	objdump -D $(word 3,$^) > $(word 3,$^).s
 
 # GitHub ========================================================================================
-update_sub:
+sub_pull:
 	git submodule update --init --recursive
+sub_update:
+	git submodule foreach --recursive 'git pull origin master'
 commit: clean
 	git add -A
 	@echo "Please type in commit comment: "; \
