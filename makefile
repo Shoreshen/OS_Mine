@@ -22,13 +22,15 @@ BFLAGS = -a X64 -t GCC5
 # Dump info variable ============================================================================
 DUMPOBJ = system user.sys test.sys
 DUMPRST = $(patsubst %,%.s,$(DUMPOBJ))
+# QEMU variable =================================================================================
+QFLAGS = -machine q35 -cpu EPYC -accel kvm -smp 4,cores=2,threads=2,sockets=1 -m 1G -device nvme,drive=D22,serial=1234 -serial stdio -net none
 # Local variable ================================================================================
 run:CFLAGS = -mcmodel=large -fno-builtin -fno-stack-protector -m64
 run:LFLAGS = -b elf64-x86-64
-run:QMEUFL = -machine q35 -cpu EPYC -accel kvm -smp 4,cores=2,threads=2,sockets=1 -m 1G -device nvme,drive=D22,serial=1234
+run:QMEUFL = $(QFLAGS)
 dbg:CFLAGS = -ggdb3 -mcmodel=large -fno-builtin -fno-stack-protector -m64
 dbg:LFLAGS = -ggdb3 -b elf64-x86-64
-dbg:QMEUFL = -s -S -machine q35 -cpu EPYC -accel kvm -smp 4,cores=2,threads=2,sockets=1 -m 1G -device nvme,drive=D22,serial=1234
+dbg:QMEUFL = -s -S $(QFLAGS)
 
 # Kernel compile ================================================================================
 $(K_OBJ_C):%.o:%.c
@@ -123,12 +125,12 @@ nvme.disk:
 	qemu-img create nvme.disk 1G
 
 run: hda.disk $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd nvme.disk
-	qemu-system-x86_64 $(QMEUFL) -hda $(word 1,$^) -bios $(word 2,$^) -net none -drive file=$(word 3,$^),if=none,id=D22 -serial stdio
+	qemu-system-x86_64 $(QMEUFL) -hda $(word 1,$^) -bios $(word 2,$^) -drive file=$(word 3,$^),if=none,id=D22
 
 dbg: hda.disk $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd nvme.disk
 	# start: gdb
 	# connecting: target remote: 1234
-	qemu-system-x86_64 $(QMEUFL) -hda $(word 1,$^) -bios $(word 2,$^) -net none -drive file=$(word 3,$^),if=none,id=D22 -serial stdio
+	qemu-system-x86_64 $(QMEUFL) -hda $(word 1,$^) -bios $(word 2,$^) -drive file=$(word 3,$^),if=none,id=D22
 	
 clean:
 	-rm $(K_OBJ_C) $(K_OBJ_I) $(K_PRC_H) $(K_OBJ_H) $(U_OBJ) $(T_OBJ)
