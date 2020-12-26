@@ -87,7 +87,7 @@ test.bin: test.sys
 # 2, source edksetup.sh BaseTools
 build_base:
 	make -C ./edk2/BaseTools
-$(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi: MyPkg/BootX64/BootX64.c MyPkg/BootX64/BootX64.h MyPkg/BootX64/BootX64.inf MyPkg/MyPkg.dec MyPkg/MyPkg.dsc
+$(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi: MyPkg/BootX64/BootX64.c MyPkg/BootX64/BootX64.h MyPkg/BootX64/BootX64.inf MyPkg/MyPkg.dec MyPkg/MyPkg.dsc $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd
 	-rm -rf $(EDKDIR)/MyPkg
 	cp -rf MyPkg $(EDKDIR)
 	cd $(EDKDIR) && build $(BFLAGS) -p $(word 5,$^) -m $(word 3,$^)
@@ -95,7 +95,9 @@ $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd:
 	cd $(EDKDIR) && build $(BFLAGS) -p $(OVMF_DSC) 
 
 # Make disk =====================================================================================
-hda.disk: $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi $(TRGOBJ)
+mnt:
+	mkdir mnt
+hda.disk: $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi $(TRGOBJ) mnt
 	-rm hda.disk
 	qemu-img create hda.disk 1G
 	echo -e "g\nn\n\n\n+250M\nt\n1\nn\n\n\n\nw" | fdisk hda.disk
@@ -153,7 +155,7 @@ dump: $(DUMPOBJ)
 sub_pull:
 	git submodule update --init --recursive
 sub_update:
-	git submodule foreach --recursive 'git pull origin master'
+	cd edk2 && git pull origin master
 commit: clean
 	git add -A
 	@echo "Please type in commit comment: "; \
