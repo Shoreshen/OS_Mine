@@ -159,5 +159,5 @@ commit: clean
 	@echo "Please type in commit comment: "; \
 	read comment; \
 	git commit -m"$$comment"
-sync: commit
+sync: commit 
 	git push -u origin master
