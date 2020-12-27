@@ -155,7 +155,7 @@ dump: $(DUMPOBJ)
 sub_init:
 	git submodule update --init --recursive
 sub_pull:
-	cd edk2 && git pull origin master
+	cd edk2 && git pull --recurse-submodules=yes origin master
 commit: clean
 	git add -A
 	@echo "Please type in commit comment: "; \
