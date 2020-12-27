@@ -152,9 +152,9 @@ dump: $(DUMPOBJ)
 	objdump -D $(word 3,$^) > $(word 3,$^).s
 
 # GitHub ========================================================================================
-sub_pull:
+sub_init:
 	git submodule update --init --recursive
-sub_update:
+sub_pull:
 	cd edk2 && git pull origin master
 commit: clean
 	git add -A
