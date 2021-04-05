@@ -1,4 +1,4 @@
-PHONY := __all
+PHONY =
 PW = $(shell cat ~/文档/PW)
 # Kernel variable ===============================================================================
 K_SRC_C = $(wildcard ./Kernel/*.c)
@@ -32,9 +32,6 @@ run:QMEUFL = $(QFLAGS)
 dbg:CFLAGS = -ggdb3 -mcmodel=large -fno-builtin -fno-stack-protector -m64
 dbg:LFLAGS = -ggdb3 -b elf64-x86-64
 dbg:QMEUFL = -s -S $(QFLAGS)
-
-__all:
-	@echo "All test"
 
 # Kernel compile ================================================================================
 $(K_OBJ_C):%.o:%.c
