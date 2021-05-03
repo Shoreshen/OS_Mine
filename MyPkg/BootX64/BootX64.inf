@@ -16,6 +16,7 @@
     UefiApplicationEntryPoint
     UefiLib
     BaseMemoryLib
+    RegisterFilterLib
 
 [Protocols]
     gEfiGraphicsOutputProtocolGuid
