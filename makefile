@@ -91,6 +91,8 @@ test.bin: test.sys
 # UEFI enviroment need to be set up each time:
 # 1, cd edk2
 # 2, source edksetup.sh BaseTools
+# 3, If BaseTools is built, `make -C ./edk2/BaseTools clean`
+
 $(EDKDIR)/BaseTools/Source/C/bin:
 	make -C ./edk2/BaseTools
 $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi: MyPkg/BootX64/BootX64.c MyPkg/BootX64/BootX64.h MyPkg/BootX64/BootX64.inf MyPkg/MyPkg.dec MyPkg/MyPkg.dsc $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd
