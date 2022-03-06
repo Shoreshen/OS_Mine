@@ -98,7 +98,7 @@ $(EDKDIR)/BaseTools/Source/C/bin:
 $(EDKDIR)/Build/My/DEBUG_GCC5/X64/BootX64.efi: MyPkg/BootX64/BootX64.c MyPkg/BootX64/BootX64.h MyPkg/BootX64/BootX64.inf MyPkg/MyPkg.dec MyPkg/MyPkg.dsc $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd
 	-rm -rf $(EDKDIR)/MyPkg
 	cp -rf MyPkg $(EDKDIR)
-	cd $(EDKDIR) && build $(BFLAGS) -p $(word 5,$^) -m $(word 3,$^)
+	cd $(EDKDIR) && source ./edksetup.sh && build $(BFLAGS) -p $(word 5,$^) -m $(word 3,$^)
 $(EDKDIR)/Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd:$(EDKDIR)/BaseTools/Source/C/bin
 	cd $(EDKDIR) && build $(BFLAGS) -p $(OVMF_DSC) 
 
