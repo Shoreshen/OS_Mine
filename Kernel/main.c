@@ -255,8 +255,8 @@ void Start_Kernel(void)
 	LVT.rsv0 = 0;
 	LVT.rsv1 = 0;
 	LVT.rsv2 = 0;
-	Set_APIC_Timer(*((unsigned long *)&LVT), 1000000);
 	AHCI_queue.global_schedual = 1; //Enable schedualing task of filing system
+	Set_APIC_Timer(*((unsigned long *)&LVT), 1000000);
 	#pragma endregion
 	
 	while(1)

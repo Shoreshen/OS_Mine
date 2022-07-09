@@ -8,7 +8,7 @@
 #include <Library/BaseMemoryLib.h>              //CompareGuid
 
 #define ERROR_BREAK(Status,info) if(EFI_ERROR(Status)){ Print(info, Status); while(1); }
-#define KERNEL_DISK_NO 3
+#define KERNEL_DISK_NO 4
 typedef struct __attribute__((__packed__)) {
     char 			Signature[8];
     char 			Checksum;

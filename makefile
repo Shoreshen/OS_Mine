@@ -30,12 +30,12 @@ DUMPOBJ = system user.sys test.sys
 DUMPRST = $(patsubst %,%.s,$(DUMPOBJ))
 # QEMU variable =================================================================================
 QFLAGS = -machine q35 -cpu EPYC -accel kvm -smp 4,cores=2,threads=2,sockets=1 -m 1G -device nvme,drive=D22,serial=1234 -serial stdio -net none
+# Link ==========================================================================================
+LFLAGS = -b elf64-x86-64
 # Local variable ================================================================================
 run:CFLAGS = -mcmodel=large -fno-builtin -fno-stack-protector -m64
-run:LFLAGS = -b elf64-x86-64
 run:QMEUFL = $(QFLAGS)
 dbg:CFLAGS = -ggdb3 -mcmodel=large -fno-builtin -fno-stack-protector -m64
-dbg:LFLAGS = -ggdb3 -b elf64-x86-64
 dbg:QMEUFL = -s -S $(QFLAGS)
 
 # Kernel compile ================================================================================
