@@ -168,6 +168,10 @@ commit: clean
 	git commit -m"$$comment"
 sync: commit 
 	git push -u origin master
+reset_hard:
+	git fetch --all
+	git reset --hard origin/master
+	git pull
 
 PHONY += sub_init sub_pull commit sync
 
