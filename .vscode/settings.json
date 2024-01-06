@@ -1,3 +1,21 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "files.associations": {
+        "atomic": "cpp",
+        "*.tcc": "cpp",
+        "sstream": "cpp",
+        "fat32.h": "c",
+        "mem.h": "c",
+        "bitset": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "istream": "cpp",
+        "mutex": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "functional": "cpp",
+        "valarray": "cpp"
+    }
 }
